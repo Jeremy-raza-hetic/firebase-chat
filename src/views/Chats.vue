@@ -28,11 +28,11 @@
         this.messagesRef.on('child_removed', snapshot => {
           const index = this.messages.findIndex(message => message.id === snapshot.key);
           this.messages.splice(index, 1);
-        })
+        });
         this.messagesRef.on('child_changed', snapshot => {
           const index = this.messages.findIndex(message => message.id === snapshot.key);
           this.messages[index].text = snapshot.val().text
-        })
+        });
       }
     }
   }
