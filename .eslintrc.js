@@ -1,17 +1,93 @@
 module.exports = {
   root: true,
-  env: {
-    node: true
-  },
-  'extends': [
-    'plugin:vue/essential',
-    '@vue/standard'
-  ],
-  rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
-  },
   parserOptions: {
     parser: 'babel-eslint'
+  },
+  env: {
+    browser: true
+  },
+  extends: [
+    'plugin:vue/strongly-recommended',
+    'standard'
+  ],
+  plugins: ['vue'],
+  rules: {
+    'array-bracket-newline': 'off',
+    'array-element-newline': 'off',
+    'arrow-parens': 'off',
+    camelcase: 'off',
+    'capitalized-comments': 'off',
+    'comma-dangle': ['error', 'only-multiline'],
+    'consistent-return': 'off',
+    curly: ['error', 'multi-line'],
+    'dot-location': ['error', 'property'],
+    eqeqeq: 'off',
+    'global-require': 'off',
+    'func-style': 'off',
+    'id-length': 'off',
+    indent: 'off',
+    'init-declarations': 'off',
+    'key-spacing': 'off',
+    'linebreak-style': 'off',
+    'lines-around-comment': 'off',
+    'line-comment-position': 'off',
+    'max-len': 'off',
+    'max-lines': 'off',
+    'max-params': 'off',
+    'max-statements': 'off',
+    'no-sparse-arrays': 'off',
+    'mocha/no-exclusive-tests': 'off',
+    'multiline-ternary': 'off',
+    'new-cap': 'off',
+    'newline-per-chained-call': 'off',
+    'no-console': 'off',
+    'no-trailing-whitespace': 'false',
+    'no-empty-function': 'off',
+    'no-extra-parens': [
+      'error',
+      'all',
+      {
+        conditionalAssign: false,
+        nestedBinaryExpressions: false
+      }
+    ],
+    'no-magic-numbers': 'off',
+    'no-invalid-this': 'off',
+    'no-inline-comments': 'off',
+    'no-plusplus': 'off',
+    'no-shadow': 'off',
+    'no-sync': 'off',
+    'no-ternary': 'off',
+    'no-undefined': 'off',
+    'no-underscore-dangle': 'off',
+    'no-unused-expressions': 0,
+    'no-useless-escape': 'off',
+    'no-warning-comments': 'off',
+    'object-curly-newline': ['error', { consistent: true }],
+    'object-curly-spacing': ['error', 'always'],
+    'object-property-newline': 'off',
+    'one-var': 'off',
+    'operator-linebreak': ['error', 'after'],
+    'padded-blocks': ['error', 'never'],
+    'prefer-destructuring': 'off',
+    quotes: ['error', 'single', { avoidEscape: true }],
+    'quote-props': ['error', 'as-needed'],
+    'require-jsdoc': 'off',
+    semi: 'off',
+    'space-before-function-paren': 'off',
+    'sort-keys': 'off',
+    'vue/attribute-hyphenation': 'off',
+    'vue/html-indent': 'off',
+    'vue/html-self-closing': 'off',
+    'vue/name-property-casing': ['error', 'kebab-case'],
+    'vue/v-on-style': 'off',
+    'vue/require-default-prop': 'off',
+    'vue/name-property-casing': ["error", "kebab-case"],
+    'vue/max-attributes-per-line': 'off',
+    'vue/name-property-casing': ['error', 'kebab-case'],
+    // allow async-await
+    'generator-star-spacing': 'off',
+    // allow debugger during development
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
   }
-}
+};
