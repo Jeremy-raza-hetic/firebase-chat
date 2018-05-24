@@ -15,6 +15,6 @@
         width: 100%;
         height: 100%;
         background-color: white;
-        border-radius: 3px;
+        border-radius: 10px;
     }
 </style>

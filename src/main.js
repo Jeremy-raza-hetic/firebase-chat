@@ -3,8 +3,10 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import { $firebase, $db } from '../firebase.config';
+import vClickOutside from 'v-click-outside'
 
 Vue.config.productionTip = false
+Vue.use(vClickOutside);
 Vue.prototype.$firebase = $firebase;
 Vue.prototype.$db = $db;
 
