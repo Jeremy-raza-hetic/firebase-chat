@@ -32,13 +32,14 @@
         this.$firebase.auth().signOut()
         .then(() => {
           this.$store.commit('setIsLogged', false);
-          this.$router.push('/auth');
           this.setIsLogged();
         });
       },
       setIsLogged() {
         const usersRef = this.$db.ref('users').child(this.profile.uid);
-        usersRef.set({ ...this.profile, isLogged: this.isLogged })
+        usersRef.set({ ...this.profile, isLogged: this.isLogged });
+        this.$store.commit('setProfile', {});
+        this.$router.push('/auth');
       }
     }
   }

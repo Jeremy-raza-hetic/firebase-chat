@@ -9,25 +9,25 @@
 </template>
 
 <script>
-    export default {
-        name: 'users-list',
-        created() {
-            this.setUsers()
-        },
-        data() {
-            return {
-                users: [],
-                usersRef: this.$db.ref('users')
-            }
-        },
-        methods: {
-            setUsers() {
-                this.usersRef.on('child_added', snapshot => {
-                    this.users.push({ ...snapshot.val()})
-                })
-            }
-        }
+  export default {
+    name: 'users-list',
+    created() {
+      this.setUsers()
+    },
+    data() {
+      return {
+        users: [],
+        usersRef: this.$db.ref('users')
+      }
+    },
+    methods: {
+      setUsers() {
+        this.usersRef.on('child_added', snapshot => {
+          this.users.push({ ...snapshot.val() })
+        })
+      }
     }
+  }
 </script>
 
 <style scoped>
