@@ -6,7 +6,6 @@
                     <li>{{ user.pseudo }}</li>
                     <div :class="{'users-list__pellet--logged': user.isLogged}" class="users-list__pellet"></div>
                 </div>
-
             </ul>
         </div>
     </div>
