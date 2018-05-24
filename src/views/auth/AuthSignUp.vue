@@ -28,46 +28,53 @@
 </template>
 
 <script>
-  import InputModel from '../../uikit/input/InputModel';
-  import ButtonAction from '../../uikit/button/ButtonAction';
+    import { mapState } from 'vuex';
+    import InputModel from '../../uikit/input/InputModel';
+    import ButtonAction from '../../uikit/button/ButtonAction';
 
-  export default {
-    components: {
-      InputModel,
-      ButtonAction
-    },
-    name: 'auth-sign-up',
-    data() {
-      return {
-        email: '',
-        pseudo: '',
-        password: '',
-        buttonValue: 'S\'inscrire'
-      }
-    },
-    methods: {
-      signUp() {
-        this.$firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
-        .then(() => {
-          this.createUser();
-          this.$store.dispatch('getProfile');
-          this.$store.commit('setIsLogged', true);
-          this.$router.push('/home');
-        })
-        .catch(error => {
-          console.log(error)
-        });
-      },
-      createUser() {
-        const user = this.$firebase.auth().currentUser;
-        this.$db.ref('users/' + user.uid).set({
-          pseudo: this.pseudo,
-          email: this.email,
-          uid: user.uid
-        })
-      }
+    export default {
+        components: {
+            InputModel,
+            ButtonAction
+        },
+        name: 'auth-sign-up',
+        data() {
+            return {
+                email: '',
+                pseudo: '',
+                password: '',
+                buttonValue: 'S\'inscrire'
+            }
+        },
+        computed: {
+            ...mapState({
+                isLogged: state => state.auth.isLogged
+            })
+        },
+        methods: {
+            signUp() {
+                this.$firebase.auth().createUserWithEmailAndPassword(this.email, this.password)
+                    .then(() => {
+                        this.$store.commit('setIsLogged', true);
+                        this.createUser();
+                        this.$store.dispatch('getProfile');
+                        this.$router.push('/home');
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    });
+            },
+            createUser() {
+                const user = this.$firebase.auth().currentUser;
+                this.$db.ref('users/' + user.uid).set({
+                    pseudo: this.pseudo,
+                    email: this.email,
+                    uid: user.uid,
+                    isLogged: this.isLogged
+                })
+            }
+        }
     }
-  }
 </script>
 
 <style scoped>
