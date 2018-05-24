@@ -11,6 +11,7 @@ Vue.prototype.$db = $db;
 router.beforeEach((to, from, next) => {
   $firebase.auth().onAuthStateChanged(user => {
     if (user) {
+      store.commit('setIsLogged', true);
       store.dispatch('getProfile');
       next()
     } else if (to.name !== 'auth' && from.name !== 'auth') {

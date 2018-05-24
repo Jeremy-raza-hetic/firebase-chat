@@ -3,6 +3,7 @@ import Router from 'vue-router'
 
 import Home from './views/Home.vue'
 import Auth from './views/auth/Auth.vue'
+import Profile from './views/Profile.vue'
 
 Vue.use(Router)
 
@@ -17,7 +18,13 @@ export default new Router({
     {
       path: '/home',
       name: 'home',
-      component: Home
+      component: Home,
+      children: [
+        {
+          path: 'profile',
+          component: Profile
+        }
+      ]
     },
     {
       path: '/auth',
@@ -30,5 +37,3 @@ export default new Router({
     }
   ]
 })
-
-
