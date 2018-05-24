@@ -2,7 +2,7 @@
     <div class="home">
         <h1>Home</h1>
         <button-action :button-value="'Se déconnecter'" :button-function="signOut"></button-action>
-        <chats></chats>
+        <chats class="chats"></chats>
         <users-list class="home__list"></users-list>
         <router-view></router-view>
     </div>
@@ -53,5 +53,10 @@
             top: 0;
             left: 0;
         }
+    }
+    .chats {
+        max-width: 300px;
+        margin-top: 20px;
+        margin-left: 260px;
     }
 </style>
