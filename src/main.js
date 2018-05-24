@@ -6,9 +6,9 @@ import { $firebase, $db, $storage } from '../firebase.config';
 import vClickOutside from 'v-click-outside'
 
 Vue.config.productionTip = false
-Vue.use(vClickOutside);
-Vue.prototype.$firebase = $firebase;
-Vue.prototype.$db = $db;
+Vue.use(vClickOutside)
+Vue.prototype.$firebase = $firebase
+Vue.prototype.$db = $db
 Vue.prototype.$storage = $storage
 
 router.beforeEach((to, from, next) => {
