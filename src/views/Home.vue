@@ -14,45 +14,45 @@
 </template>
 
 <script>
-    import ButtonAction from '../uikit/button/ButtonAction';
-    import Chats from './Chats';
-    import {mapState} from 'vuex';
-    import UsersList from '../components/users/UsersList';
-    import RoomsList from "../components/rooms/RoomsList";
-    import Room from "../components/rooms/Room";
+  import ButtonAction from '../uikit/button/ButtonAction';
+  import Chats from './Chats';
+  import { mapState } from 'vuex';
+  import UsersList from '../components/users/UsersList';
+  import RoomsList from '../components/rooms/RoomsList';
+  import Room from '../components/rooms/Room';
 
-    export default {
-        components: {
-            Room,
-            RoomsList,
-            Chats,
-            UsersList,
-            ButtonAction
-        },
-        name: 'home',
-        computed: {
-            ...mapState({
-                profile: state => state.auth.profile,
-                isLogged: state => state.auth.isLogged
-            })
-        },
-        methods: {
-            signOut() {
-                this.$firebase.auth().signOut()
-                    .then(() => {
-                        this.$store.commit('setIsLogged', false);
-                        this.$router.push('/auth');
-                        this.setIsLogged();
-                    });
-            },
-            setIsLogged() {
-                const usersRef = this.$db.ref('users').child(this.profile.uid);
-                usersRef.set({...this.profile, isLogged: this.isLogged})
-                this.$store.commit('setProfile', {});
-                this.$router.push('/auth');
-            }
-        }
+  export default {
+    components: {
+      Room,
+      RoomsList,
+      Chats,
+      UsersList,
+      ButtonAction
+    },
+    name: 'home',
+    computed: {
+      ...mapState({
+        profile: state => state.auth.profile,
+        isLogged: state => state.auth.isLogged
+      })
+    },
+    methods: {
+      signOut() {
+        this.$firebase.auth().signOut()
+        .then(() => {
+          this.$store.commit('setIsLogged', false);
+          this.$router.push('/auth');
+          this.setIsLogged();
+        });
+      },
+      setIsLogged() {
+        const usersRef = this.$db.ref('users').child(this.profile.uid);
+        usersRef.set({ ...this.profile, isLogged: this.isLogged })
+        this.$store.commit('setProfile', {});
+        this.$router.push('/auth');
+      }
     }
+  }
 </script>
 
 <style scoped lang="scss">

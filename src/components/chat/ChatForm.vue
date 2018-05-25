@@ -35,19 +35,17 @@
     },
     methods: {
       sendNewMessage() {
-        if (this.newMessage.trim() !== '') {
-          //
-          const messagesRef = this.$db.ref('messages');
-          const newMessageObject = messagesRef.push();
-          newMessageObject.set({
-            owner: this.user,
-            pseudo: this.profile.pseudo,
-            text: this.newMessage
-          });
+        this.$store.dispatch('sendNewMessage', {
+          ref: this.$db.ref(`rooms/${this.$route.params.id}/messages`),
+          owner: this.user,
+          pseudo: this.profile.pseudo,
+          message: this.newMessage
+        })
+        .then(() => {
           this.newMessage = ''
-        }
+        })
       }
-    },
+    }
   }
 </script>
 

@@ -1,21 +1,38 @@
-import { $firebase, $db } from '../../firebase.config';
+import { $db } from '../../firebase.config';
 
 export default {
-    state: {
-        roomMessages: {}
+  state: {
+    defaultRoom: {
+      name: '',
+      messages: []
     },
-    actions: {
-        getRoomMessages({ commit }, id){
-            const roomRef = $db.ref('rooms/' + id);
-
-            roomRef.on('value', snapshot => {
-                commit('setRoomMessages', snapshot.val());
-            })
-        }
-    },
-    mutations: {
-        setRoomMessages(state, value) {
-            state.roomMessages = value
-        }
+    room: {
+      name: '',
+      messages: []
     }
+  },
+  actions: {
+    async getRoom({ state, commit }, id) {
+      const roomRef = $db.ref('rooms/' + id);
+
+      await roomRef.on('value', snapshot => {
+        if (snapshot.val() !== null) {
+          commit('setRoom', snapshot.val());
+        } else {
+          commit('setRoom', state.defaultRoom);
+        }
+      })
+    },
+  },
+  mutations: {
+    setRoom(state, value) {
+      state.room.name = value.name;
+      state.room.messages = value.messages;
+    }
+  },
+  getters: {
+    emptyRoomMessages: state => {
+      return state.room.messages.length === 0;
+    }
+  }
 }

@@ -1,7 +1,7 @@
 <template>
     <div class="rooms-list">
         <div class="rooms-list__loop" v-for="room in rooms" :key="room.id">
-            <div class="rooms-list__item" @click="fillRoom(room.id)">
+            <div class="rooms-list__item" @click="goToRoom(room.id)">
                 <p>{{ room.name }}</p>
             </div>
         </div>
@@ -9,28 +9,30 @@
 </template>
 
 <script>
-    export default {
-        name: 'rooms-list',
-        created() {
-            this.setRooms();
-        },
-        data() {
-            return {
-                rooms: [],
-                roomsRef: this.$db.ref('rooms'),
-            }
-        },
-        methods: {
-            setRooms() {
-                this.roomsRef.on('child_added', snapshot => {
-                    this.rooms.push({...snapshot.val(), id: snapshot.key})
-                })
-            },
-            fillRoom(id) {
-                this.$store.dispatch('getRoomMessages', id)
-            }
-        }
+  export default {
+    name: 'rooms-list',
+    created() {
+      this.setRooms();
+    },
+    data() {
+      return {
+        rooms: [],
+        roomsRef: this.$db.ref('rooms'),
+      }
+    },
+    methods: {
+      setRooms() {
+        this.roomsRef.on('child_added', snapshot => {
+          this.rooms.push({ ...snapshot.val(), id: snapshot.key })
+        })
+      },
+      goToRoom(id) {
+        this.$router.push({
+          path: `/home/${id}`
+        });
+      }
     }
+  }
 </script>
 
 <style lang="scss" scoped>
