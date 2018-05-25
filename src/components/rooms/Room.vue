@@ -15,20 +15,50 @@
   export default {
     name: 'room',
     components: { ChatList, ChatForm },
-    async created() {
-      await this.$store.dispatch('getRoom', this.$route.params.id);
+    created() {
+      // set room
+      this.linkRoom();
+      this.linkRoomMessages();
     },
     computed: {
       ...mapState({
         room: state => state.room.room
       }),
       ...mapGetters([
-        'emptyRoomMessages'
-      ])
+        'emptyRoomMessages',
+        'lol'
+      ]),
+    },
+    methods: {
+      // set room if params.id
+      // store
+      linkRoom() {
+        const ref = this.$db.ref(`rooms/${this.$route.params.id}`);
+        ref.once('value', snapshot => {
+          if (snapshot.val() !== null) {
+            this.$store.dispatch('setRoom', snapshot.val())
+          }
+        })
+      },
+      linkRoomMessages() {
+        const refMsg = this.$db.ref(`rooms/${this.$route.params.id}/messages`);
+        refMsg.on('child_added', snapshot => {
+          this.$store.commit('setRoomMessages', { ...snapshot.val(), id: snapshot.key });
+        });
+        refMsg.on('child_removed', snapshot => {
+          this.$store.dispatch('deleteRoomMessage', snapshot.val());
+          this.lol(0);
+          console.log(this.lol);
+        });
+        refMsg.on('child_changed', snapshot => {
+          this.$store.commit('updateRoomMessage', snapshot.val());
+        })
+      }
     },
     watch: {
       $route() {
-        this.$store.dispatch('getRoom', this.$route.params.id)
+        this.linkRoom();
+        this.linkRoomMessages();
       }
     }
   }
@@ -38,5 +68,7 @@
     .room {
         background-color: aquamarine;
         width: 30em;
+        min-height: 70vh;
+        overflow: scroll;
     }
 </style>

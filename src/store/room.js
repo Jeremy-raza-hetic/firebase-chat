@@ -1,38 +1,38 @@
-import { $db } from '../../firebase.config';
-
 export default {
   state: {
-    defaultRoom: {
-      name: '',
-      messages: []
-    },
     room: {
       name: '',
       messages: []
     }
   },
   actions: {
-    async getRoom({ state, commit }, id) {
-      const roomRef = $db.ref('rooms/' + id);
-
-      await roomRef.on('value', snapshot => {
-        if (snapshot.val() !== null) {
-          commit('setRoom', snapshot.val());
-        } else {
-          commit('setRoom', state.defaultRoom);
-        }
-      })
+    setRoom({ commit }, obj) {
+      commit('setRoom', obj)
+    },
+    deleteRoomMessage({ state, getters }, val) {
+      //
     },
   },
   mutations: {
-    setRoom(state, value) {
-      state.room.name = value.name;
-      state.room.messages = value.messages;
+    setRoom(state, val) {
+      state.room.name = val.name;
+    },
+    setRoomMessages(state, val) {
+      state.room.messages.push(val);
+    },
+    updateRoomMessage(state, val) {
+      const index = state.room.messages.find(msg => msg.id === val.id);
+      state.room.messages[index].text = val.text;
     }
   },
   getters: {
     emptyRoomMessages: state => {
       return state.room.messages.length === 0;
+    },
+    lol: (state) => (id) => {
+      console.log(id);
+      return state.room.messages.findIndex(x => x.id === id);
     }
   }
+
 }

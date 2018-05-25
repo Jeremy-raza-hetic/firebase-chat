@@ -3,7 +3,8 @@
         <p>{{ message.pseudo }} a dit :</p>
         <p>{{ message.text }}</p>
         <input v-if="isInputDisplayed" v-model="updatedMessage"/>
-        <button-action v-if="isInputDisplayed" :button-value="'Valider'" :button-function="updateMessage"></button-action>
+        <button-action v-if="isInputDisplayed" :button-value="'Valider'"
+                       :button-function="updateMessage"></button-action>
         <button-action v-if="isInputDisplayed" :button-value="'Retour'" :button-function="toggleInput"></button-action>
         <button-action
                 v-if="message.owner === profile.email"
@@ -43,20 +44,28 @@
     },
     methods: {
       deleteMessage() {
-        const messagesRef = this.$db.ref('messages');
-        messagesRef.child(this.message.id).remove()
+        this.$store.dispatch('deleteMessage', {
+          ref: this.$db.ref(`rooms/${this.$route.params.id}/messages`),
+          messageId: this.message.id
+        })
       },
       updateMessage() {
         if (this.updatedMessage.trim() !== '') {
-          const messagesRef = this.$db.ref('messages');
           const newVal = {
             owner: this.message.owner,
-            pseuo: this.message.pseudo,
+            pseudo: this.message.pseudo,
             text: this.updatedMessage
           };
-          messagesRef.child(this.message.id).update(newVal);
-          this.updatedMessage = '';
-          this.isInputDisplayed = false;
+
+          this.$store.dispatch('updateMessage', {
+            ref: this.$db.ref(`rooms/${this.$route.params.id}/messages`),
+            messageId: this.message.id,
+            updateObj: newVal
+          })
+          .then(() => {
+            this.updatedMessage = '';
+            this.isInputDisplayed = false;
+          })
         }
       },
       toggleInput() {
